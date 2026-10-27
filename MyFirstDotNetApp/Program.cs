@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);  // builder loads configuratio
 //builder.Configuration
 //builder.Environment
 builder.Services.AddTransient<MyCustomMiddleware>();  // adding custom middleware to the services collection
-builder.Services.AddTransient<MyConventionalCustomMiddleWare>();
+//builder.Services.AddTransient<MyConventionalCustomMiddleWare>();
 
 
 var app = builder.Build();   // instance of an web application 
