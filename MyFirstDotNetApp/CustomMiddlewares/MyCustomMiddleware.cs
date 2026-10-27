@@ -12,8 +12,8 @@
 
 public static class MyCustomMiddleWareExtension
 {
-    public static IApplicationBuilder UseMyCustomMiddleWare(this IApplicationBuilder app)
+    public static void UseMyCustomMiddleWare(this IApplicationBuilder app)
     {
-        return app.UseMiddleware<MyCustomMiddleware>();
+        app.UseMiddleware<MyCustomMiddleware>();
     }
 }
