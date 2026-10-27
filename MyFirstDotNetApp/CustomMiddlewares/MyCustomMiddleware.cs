@@ -3,9 +3,9 @@
     {
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            await context.Response.WriteAsync("From custom middleware 01");
+            await context.Response.WriteAsync("From main chain custom middleware 01\n");
             await next(context);
-            await context.Response.WriteAsync("From custom middleware 02");
+            await context.Response.WriteAsync("From main chain custom middleware 02\n");
         }
     }
 

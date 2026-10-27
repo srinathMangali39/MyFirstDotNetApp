@@ -16,21 +16,34 @@ var app = builder.Build();   // instance of an web application
 // middleware 1
 app.Use(async (HttpContext context,RequestDelegate next) =>
 {
-    await context.Response.WriteAsync("Middleware 1\n");
+    await context.Response.WriteAsync("Main chain Middleware 1\n");
     await next(context);
 });
 
 
 //app.UseMiddleware<MyCustomMiddleware>();
 
-//app.UseMyCustomMiddleWare();  // using custom middleware using method extension
+app.UseMyCustomMiddleWare();  // using custom middleware using method extension
 
-app.UseMyConvenetionalCustomMiddleware();
+//app.UseMyConvenetionalCustomMiddleware();
+
+app.UseWhen((HttpContext context) =>
+{
+    return context.Request.Query.ContainsKey("userName");
+}, app =>
+{
+    // middleware branch
+    app.Use(async (HttpContext context, RequestDelegate next) =>
+    {
+        await context.Response.WriteAsync("From Middlerware branch \n");
+        await next(context);
+    });
+});
 
 // middleware 3
 app.Run(async (HttpContext context) =>
 {
-    await context.Response.WriteAsync("Middleware 3");
+    await context.Response.WriteAsync("Main chain Middleware 3\n");
 });
 
 app.Run();  // runs the application in a server
