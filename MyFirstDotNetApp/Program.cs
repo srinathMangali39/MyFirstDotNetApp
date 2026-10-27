@@ -5,16 +5,25 @@ var builder = WebApplication.CreateBuilder(args);  // builder loads configuratio
 var app = builder.Build();   // instance of an web application 
 
 
-// Run() is actually a terminal middleware 
-
-app.Run(async (HttpContext context) =>
-{
-    await context.Response.WriteAsync("Hello World");     // here this itself is the terminal middleware, it is the last middleware in the pipeline, so it will be executed at the end of the pipeline
-});
-
-app.Run(async (HttpContext context) =>
+// middleware 1
+app.Use(async (HttpContext context,RequestDelegate next) =>
 {
     await context.Response.WriteAsync("Hello World");
+    await next(context);
+});
+
+// middleware 2
+app.Use(async (HttpContext context, RequestDelegate next) =>
+{
+    await context.Response.WriteAsync("Hello World Again 01 ");
+    await next(context);
+});
+
+
+// middleware 3
+app.Run(async (HttpContext context) =>
+{
+    await context.Response.WriteAsync("Hello World Again 02 ");
 });
 
 app.Run();  // runs the application in a server
