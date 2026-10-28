@@ -84,7 +84,8 @@ app.MapGet("/files/{sample}.{ext}", async (context) =>
 });
 
 
-app.MapGet("/product/{id=30}", async (context) =>
+// optional parameter helps us to have default parameter as null value , if no value is provided 
+app.MapGet("/product/{id?}", async (context) =>
 {
     int productId = Convert.ToInt32(context.Request.RouteValues["id"]);
     context.Response.Headers["Content-Type"] = "text/html";
