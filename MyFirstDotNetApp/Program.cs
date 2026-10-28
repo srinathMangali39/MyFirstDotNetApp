@@ -84,6 +84,15 @@ app.MapGet("/files/{sample}.{ext}", async (context) =>
 });
 
 
+app.MapGet("/product/{id=30}", async (context) =>
+{
+    int productId = Convert.ToInt32(context.Request.RouteValues["id"]);
+    context.Response.Headers["Content-Type"] = "text/html";
+    await context.Response.WriteAsync($"The product id is {productId}");
+});
+
+
+
 
 // need to be atlast 
 app.MapFallback(async (context) =>
