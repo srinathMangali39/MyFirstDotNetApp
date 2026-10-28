@@ -57,26 +57,29 @@ var app = builder.Build();   // instance of an web application
 // end point middleware 1
 // by default it accepts all http methods
 // works coniditionally 
-app.Map("/map1", async (context) =>
+app.MapGet("/map1", async (context) =>
 {
-    await context.Response.WriteAsync("In Map 1\n");
+    context.Response.Headers["Content-Type"] = "text/html";
+    await context.Response.WriteAsync("In Map get\n");
 });
 
 
-// end point middlware 2 
+// end point middlware 2
 // by default it accepts all http methods
-app.Map("/map2", async (context) =>
+app.MapPost("/map2", async (context) =>
 {
-    await context.Response.WriteAsync("In Map 2\n");
+    context.Response.Headers["Content-Type"] = "text/html";
+    await context.Response.WriteAsync("In Map post\n");
 });
 
 app.MapFallback(async (context) =>
 {
+    context.Response.Headers["Content-Type"] = "text/html";
     await context.Response.WriteAsync("In Map fallback");
 });
 
 
 
-app.Run();  // runs the application in a server
+app.Run();
 
 
