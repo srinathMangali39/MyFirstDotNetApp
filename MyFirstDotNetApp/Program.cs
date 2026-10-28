@@ -72,6 +72,20 @@ app.MapPost("/map2", async (context) =>
     await context.Response.WriteAsync("In Map post\n");
 });
 
+
+// Route parameters 
+
+app.MapGet("/files/{sample}.{ext}", async (context) =>
+{
+    string? fileName = Convert.ToString(context.Request.RouteValues["sample"]);
+    string? extension = Convert.ToString(context.Request.RouteValues["ext"]);
+    context.Response.Headers["Content-Type"] = "text/html";
+    await context.Response.WriteAsync($"file name is {fileName} and extension is {extension}");
+});
+
+
+
+// need to be atlast 
 app.MapFallback(async (context) =>
 {
     context.Response.Headers["Content-Type"] = "text/html";
