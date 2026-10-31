@@ -4,9 +4,13 @@ namespace MyFirstDotNetApp.Controllers;
 public class HomeController : Controller
 {
     [Route("/")]
-    public String Index()
+    public ContentResult Method1()
     {
-        return "Hello From method 1";
+        return new ContentResult()
+        {
+            Content = "<h1>Hi i am srinath</h1>",
+            ContentType = "text/html"
+        };
     }
 
     [Route("about")]
@@ -20,5 +24,7 @@ public class HomeController : Controller
     {
         return "this is from contact";
     }
+
+
 
 }
