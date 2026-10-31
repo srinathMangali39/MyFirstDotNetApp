@@ -59,6 +59,9 @@ var app = builder.Build();   // instance of an web application
 //});
 
 
+// configure static files middleware 
+app.UseStaticFiles();
+
 
 
 // Routing 
