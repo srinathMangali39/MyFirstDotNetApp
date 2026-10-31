@@ -1,3 +1,4 @@
+using MyFirstDotNetApp.Controllers;
 using MyFirstDotNetApp.CustomContraints;
 using MyFirstDotNetApp.CustomMiddlewares;
 using System.Buffers;
@@ -5,144 +6,13 @@ using System.Buffers;
 
 var builder = WebApplication.CreateBuilder(args);  // builder loads configurations ( connection strings etc), environments ( Api urls or sever names), default services (Predefiend and userdefined services)
 
+builder.Services.AddTransient<HomeController>(); // register HomeController as a transient service in the DI container
 
-// registering Custom routing constraints services in the builder 
-builder.Services.AddRouting(options =>
-{
-    options.ConstraintMap.Add("months", typeof(MonthCustomContraints));
-});
+builder.Services.AddControllers();  // register the controllers in the DI container, same as above , but for all controllers in the project
 
+var app = builder.Build(); // build the application and create a web host
 
-//builder.Services.
-//builder.Configuration
-//builder.Environment
-builder.Services.AddTransient<MyCustomMiddleware>();  // adding custom middleware to the services collection
-//builder.Services.AddTransient<MyConventionalCustomMiddleWare>();
-
-
-var app = builder.Build();   // instance of an web application 
-
-
-// All about middleware 
-
-//// middleware 1
-//app.Use(async (HttpContext context,RequestDelegate next) =>
-//{
-//    await context.Response.WriteAsync("Main chain Middleware 1\n");
-//    await next(context);
-//});
-
-
-////app.UseMiddleware<MyCustomMiddleware>();
-
-//app.UseMyCustomMiddleWare();  // using custom middleware using method extension
-
-////app.UseMyConvenetionalCustomMiddleware();
-
-//app.UseWhen((HttpContext context) =>
-//{
-//    return context.Request.Query.ContainsKey("userName");
-//}, app =>
-//{
-//    // middleware branch
-//    app.Use(async (HttpContext context, RequestDelegate next) =>
-//    {
-//        await context.Response.WriteAsync("From Middlerware branch \n");
-//        await next(context);
-//    });
-//});
-
-//// middleware 3
-//app.Run(async (HttpContext context) =>
-//{
-//    await context.Response.WriteAsync("Main chain Middleware 3\n");
-//});
-
-
-// configure static files middleware 
-app.UseStaticFiles();
-
-
-
-// Routing 
-
-
-// end point middleware 1
-// by default it accepts all http methods
-// works coniditionally 
-app.MapGet("/map1", async (context) =>
-{
-    context.Response.Headers["Content-Type"] = "text/html";
-    await context.Response.WriteAsync("In Map get\n");
-});
-
-
-// end point middlware 2
-// by default it accepts all http methods
-app.MapPost("/map2", async (context) =>
-{
-    context.Response.Headers["Content-Type"] = "text/html";
-    await context.Response.WriteAsync("In Map post\n");
-});
-
-
-// Route parameters 
-
-app.MapGet("/files/{sample}.{ext}", async (context) =>
-{
-    string? fileName = Convert.ToString(context.Request.RouteValues["sample"]);
-    string? extension = Convert.ToString(context.Request.RouteValues["ext"]);
-    context.Response.Headers["Content-Type"] = "text/html";
-    await context.Response.WriteAsync($"file name is {fileName} and extension is {extension}");
-});
-
-
-// optional parameter helps us to have default parameter as null value , if no value is provided 
-app.MapGet("/product/{id:int?}", async (context) =>
-{
-    int productId = Convert.ToInt32(context.Request.RouteValues["id"]);
-    context.Response.Headers["Content-Type"] = "text/html";
-    await context.Response.WriteAsync($"The product id is {productId}");
-});
-
-
-app.MapGet("/daily-digest-report/{date:datetime}", async (context) =>
-{
-    await context.Response.WriteAsync("Date accepted");
-});
-
-
-
-// guid 
-app.MapGet("/cities/{cityid:guid}", async (context) =>
-{
-    Guid cityId = Guid.Parse(Convert.ToString(context.Request.RouteValues["cityid"])!);
-    await context.Response.WriteAsync($"The city id is {cityId}");
-});
-
-
-// minlength, maxlenth , length(min,max)
-
-app.MapGet("/mployee/profile/{name:maxlength(10):alpha}", async (context) =>
-{
-    String? name = Convert.ToString(context.Request.RouteValues["name"]);
-    await context.Response.WriteAsync($"employee name is {name}");
-});
-
-
-app.MapGet("sales-report/{year:int:min(1900)}/{month:months}", async (context) =>
-{
-    await context.Response.WriteAsync("Sale-report is accepeted");
-});
-
-
-
-// need to be atlast 
-app.MapFallback(async (context) =>
-{
-    context.Response.Headers["Content-Type"] = "text/html";
-    await context.Response.WriteAsync("In Map fallback");
-});
+app.MapControllers(); // map the controllers to the request pipeline
 
 
 
