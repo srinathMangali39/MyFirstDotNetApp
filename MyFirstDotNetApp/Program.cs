@@ -85,13 +85,36 @@ app.MapGet("/files/{sample}.{ext}", async (context) =>
 
 
 // optional parameter helps us to have default parameter as null value , if no value is provided 
-app.MapGet("/product/{id?}", async (context) =>
+app.MapGet("/product/{id:int?}", async (context) =>
 {
     int productId = Convert.ToInt32(context.Request.RouteValues["id"]);
     context.Response.Headers["Content-Type"] = "text/html";
     await context.Response.WriteAsync($"The product id is {productId}");
 });
 
+
+app.MapGet("/daily-digest-report/{date:datetime}", async (context) =>
+{
+    await context.Response.WriteAsync("Date accepted");
+});
+
+
+
+// guid 
+app.MapGet("/cities/{cityid:guid}", async (context) =>
+{
+    Guid cityId = Guid.Parse(Convert.ToString(context.Request.RouteValues["cityid"])!);
+    await context.Response.WriteAsync($"The city id is {cityId}");
+});
+
+
+// minlength, maxlenth , length(min,max)
+
+app.MapGet("/mployee/profile/{name:maxlength(10):alpha}", async (context) =>
+{
+    String? name = Convert.ToString(context.Request.RouteValues["name"]);
+    await context.Response.WriteAsync($"employee name is {name}");
+});
 
 
 
