@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyFirstDotNetApp.Models;
 namespace MyFirstDotNetApp.Controllers;
 
 public class HomeController : Controller
@@ -26,6 +27,17 @@ public class HomeController : Controller
         return "this is from contact";
     }
 
-
+    [Route("person")]
+    public JsonResult GetPersonData()
+    {
+        Person person = new Person()
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Srinath",
+            LastName = "Mangali",
+            Age = 24
+        };
+        return new JsonResult(person);
+    }
 
 }
