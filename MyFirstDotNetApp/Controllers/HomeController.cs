@@ -40,4 +40,28 @@ public class HomeController : Controller
         return new JsonResult(person);
     }
 
+    [Route("download-virtual")]
+    public VirtualFileResult DownloadField()
+    {
+        //return new VirtualFileResult("/Denaurlen_Internship.pdf", "Application/pdf");
+        return File("/Denaurlen_Internship.pdf", "Application/pdf");
+    }
+
+    [Route("download-physical")]
+    public PhysicalFileResult DownloadField2()
+    {
+        //return new PhysicalFileResult(@"C:\Users\MangaliSrinath\source\repos\MyFirstDotNetApp\MyFirstDotNetApp\wwwroot\Denaurlen_Internship.pdf", "Application/pdf");
+        return PhysicalFile(@"C:\Users\MangaliSrinath\source\repos\MyFirstDotNetApp\MyFirstDotNetApp\wwwroot\Denaurlen_Internship.pdf", "Application/pdf");
+    
+    }
+
+
+    [Route("download-file")]
+    public FileContentResult DownloadField3()
+    {
+        Byte[] bytes = System.IO.File.ReadAllBytes(@"C:\Users\MangaliSrinath\source\repos\MyFirstDotNetApp\MyFirstDotNetApp\wwwroot\Denaurlen_Internship.pdf");
+        //return new FileContentResult(bytes, "Application/pdf");
+        return File(bytes, "Application/pdf");
+    }
+
 }
