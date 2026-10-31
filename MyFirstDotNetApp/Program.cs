@@ -1,8 +1,18 @@
+using MyFirstDotNetApp.CustomContraints;
 using MyFirstDotNetApp.CustomMiddlewares;
 using System.Buffers;
 
 
 var builder = WebApplication.CreateBuilder(args);  // builder loads configurations ( connection strings etc), environments ( Api urls or sever names), default services (Predefiend and userdefined services)
+
+
+// registering Custom routing constraints services in the builder 
+builder.Services.AddRouting(options =>
+{
+    options.ConstraintMap.Add("months", typeof(MonthCustomContraints));
+});
+
+
 //builder.Services.
 //builder.Configuration
 //builder.Environment
@@ -114,6 +124,12 @@ app.MapGet("/mployee/profile/{name:maxlength(10):alpha}", async (context) =>
 {
     String? name = Convert.ToString(context.Request.RouteValues["name"]);
     await context.Response.WriteAsync($"employee name is {name}");
+});
+
+
+app.MapGet("sales-report/{year:int:min(1900)}/{month:months}", async (context) =>
+{
+    await context.Response.WriteAsync("Sale-report is accepeted");
 });
 
 
