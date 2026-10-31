@@ -6,11 +6,12 @@ public class HomeController : Controller
     [Route("/")]
     public ContentResult Method1()
     {
-        return new ContentResult()
-        {
-            Content = "<h1>Hi i am srinath</h1>",
-            ContentType = "text/html"
-        };
+        //return new ContentResult()
+        //{
+        //    Content = "<h1>Hi i am srinath</h1>",
+        //    ContentType = "text/html"
+        //};
+        return Content("Hi am different", "text/plain");
     }
 
     [Route("about")]
