@@ -65,4 +65,37 @@ public class HomeController : Controller
         //return new FileContentResult(bytes, "Application/pdf");
         return File(bytes, "Application/pdf");
     }
+
+    [Route("items/book")]
+    public IActionResult GetBookItem()
+    {
+        return new RedirectToActionResult("GetBookName", "Books", new { }, true);
+        // return RedirectToAction("GetBookName", "Books",new { });
+        //return RedirectToActionPermanent("GetBookName", "Books", new {});
+    }
+
+    [Route("items/book/{bookid:int}")]
+    public IActionResult GetBookItemyId()
+    {
+        return new RedirectToActionResult("GetBookNameById", "Books", new { id = Convert.ToInt32(Request.RouteValues["bookid"]) }, true);
+    }
+
+    [Route("items/famous/book/{bookid:int}")]
+    public IActionResult GetBookItemById()
+    {
+        int bid = Convert.ToInt32(Request.RouteValues["bookid"]);
+        return new LocalRedirectResult($"/store/famous/bookName/{bid}");   // add true parameter for 301 status code 
+        //return LocalRedirect($"/store/famous/bookName/{bid}");   
+        //return LocalRedirectPermanent($"/store/famous/bookName/{bid}");   // for 301 status code
+    }
+
+
+    [Route("items/externalBooks")]
+    public IActionResult GetExternalBooks()
+    {
+        return new RedirectResult("https://www.youtube.com/");   // add true parameter for 301 status code
+        //return Redirect("https://www.youtube.com/");   
+        //return RedirectPermanent("https://www.youtube.com/");   // for 301 status code
+    }
+
 }
