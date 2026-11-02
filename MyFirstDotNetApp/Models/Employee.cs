@@ -4,7 +4,7 @@ namespace MyFirstDotNetApp.Models;
 
 public class Employee
 {
-    [Required]
+    [Required(ErrorMessage ="field cannot be empty or null")]
     public string? FullName { get; set;  }
 
     public string? Email { get; set; }
