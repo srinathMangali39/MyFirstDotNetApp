@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyFirstDotNetApp.Models;
@@ -23,6 +24,7 @@ public class Employee
     [Compare("Password",ErrorMessage ="{0} should be same as {1} value")]
     public string? ConfirmPassword { get; set; }
 
+    [BindNever]
     [Range(25, 60, ErrorMessage = "{0} should be between {1} and {2}")]
     public string? Age { get; set; }
 
