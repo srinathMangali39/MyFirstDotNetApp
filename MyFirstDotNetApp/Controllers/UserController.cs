@@ -15,7 +15,7 @@ public class UserController : Controller
         });
     }
 
-    [Route("users")]
+    [Route("users/info/{name?}/{age:int}")]
     public IActionResult CreateUserDetails(User user)
     {
         return Content(user.ToString());
