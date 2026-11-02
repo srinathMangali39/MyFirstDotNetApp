@@ -6,11 +6,18 @@ namespace MyFirstDotNetApp.Controllers;
 public class UserController : Controller
 {
     [Route("/users/{name?}/{age:int}")]
-    public IActionResult UserDetails([FromQuery]string? name, [FromRoute]int age)
+    public IActionResult UserDetails([FromQuery] string? name, [FromRoute] int age)
     {
-        return Json(new User(){
+        return Json(new User()
+        {
             Name = name,
-            Age=age
+            Age = age
         });
+    }
+
+    [Route("users")]
+    public IActionResult CreateUserDetails(User user)
+    {
+        return Content(user.ToString());
     }
 }
